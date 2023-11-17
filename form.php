@@ -17,15 +17,6 @@ if (!$conn) {
     echo "Połączono z bazą danych!";
 }
 
-$query =
-"SELECT * FROM Taskor
-";
-
-//      try 
-// {
-//     $conn
-// }
-$result = mysqli_query($conn, $query);
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -38,7 +29,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $startDate = mysqli_real_escape_string($conn, $_POST['startDate']);
     // $endDate = mysqli_real_escape_string($conn, $_POST['endDate']);
 
-    $endDate = isset($_POST['endDate']) ? mysqli_real_escape_string($conn, $_POST['endDate']) : null;
+    
+    $endDate = isset($_POST['endDate']) && $_POST['endDate'] !== '' ? "'" . mysqli_real_escape_string($conn, $_POST['endDate']) . "'" : NULL;
+
+
+    // //TODO: Do sprawdzenia
+    // $rawEndDate = mysqli_real_escape_string($conn, $_POST['endDate']);
+    // $endDate = strlen($rawEndDate) <= 0 ? null : $rawEndDate;
 
     $query = "INSERT INTO Taskor (name, description, priority, author, assigned, startDate, endDate) VALUES ('$name', '$desc', '$prior', '$author', '$assigned', '$startDate', '$endDate')";
 

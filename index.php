@@ -1,32 +1,29 @@
 
 <?php 
+    $servername = "localhost";
+    $port = 8889;
+    $username = "root";
+    $password = "root";
+    $database = "Taskor";
 
+    // Tworzenie połączenia
+    $conn = mysqli_connect($servername, $username, $password, $database, $port);
 
-$servername = "localhost";
-$port = 8889;
-$username = "root";
-$password = "root";
-$database = "Taskor";
+    // Sprawdzenie połączenia
+    if (!$conn) {
+        die("Nie udało się połączyć z bazą danych: " . mysqli_connect_error());
+    } else {
+        echo "Połączono z bazą danych!";
+    }
 
-// Tworzenie połączenia
-$conn = mysqli_connect($servername, $username, $password, $database, $port);
+    $query = "SELECT * FROM Taskor";
 
-// Sprawdzenie połączenia
-if (!$conn) {
-    die("Nie udało się połączyć z bazą danych: " . mysqli_connect_error());
-} else {
-    echo "Połączono z bazą danych!";
-}
-
-$query =
-"SELECT * FROM Taskor
-";
-
-//      try 
-// {
-//     $conn
-// }
-$result = mysqli_query($conn, $query);
+    //      try 
+    // {
+    //     $conn
+    // }
+    $result = mysqli_query($conn, $query);
+    //TODO: obsługa błędów jeśli nie wczyta
 
 ?>
 
@@ -73,63 +70,41 @@ $result = mysqli_query($conn, $query);
                     <th scope="col">Assigned</th>
                     <th scope="col">Start Date</th>
                     <th scope="col">End Date</th>
-                </tr>
+                    <th scope="col" class="hidden"> </th>
             </thead>
-            <tbody>
-                <!-- <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                </tr> -->
+      
 
-                        <?php 
-        while ($row = mysqli_fetch_assoc($result)) {
-        echo "<tr>";
-        // echo "<th scope='row'>"1"</th>";
-        echo "<td>" . $row["Name"] . "</td>";
-        echo "<td>" . $row["Description"] . "</td>";
-        echo "<td>" . $row["Priority"] . "</td>";
-        echo "<td>" . $row["Author"] . "</td>";
-        echo "<td>" . $row["Assigned"] . "</td>";
-        echo "<td>" . $row["StartDate"] . "</td>";
-        echo "<td>" . $row["EndDate"] . "</td>";
-        echo "</tr>";
+        <?php 
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<tr>";
+                // echo "<th scope='row'>"1"</th>";
+                echo "<td>" . $row["Name"] . "</td>";
+                echo "<td>" . $row["Description"] . "</td>";
+                echo "<td>" . $row["Priority"] . "</td>";
+                echo "<td>" . $row["Author"] . "</td>";
+                echo "<td>" . $row["Assigned"] . "</td>";
+                echo "<td>" . $row["StartDate"] . "</td>";
+                echo "<td>" . $row["EndDate"] . "</td>";
+                echo '<td><input class="form-check-input hidden" type="checkbox" value="" id="flexCheckDefault" style= "display: none;"></td>';
+                echo "</tr>";
 
-        }
-        mysqli_close($conn);
+            }
+            mysqli_close($conn);
 
         ?>
-            </tbody>
-        </table>
+    
+        </tbody>
+    </table>
 
 
+    <button name="addTask" type="submit" class="btn btn-primary" >Edytuj</button>
+    <button onclick="showHiddenColumns()" name="addTask" type="submit" class="btn btn-primary" id="toggleDeleteColumn">Usuń</button>
+    <button name="addTask" type="submit" class="btn btn-primary hidden" style="display: none; margin-left: 80%;">Gotowe</button>
 
     </div>
 
 
-
+    <script src="index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
